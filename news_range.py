@@ -1,6 +1,7 @@
 '''news for 5 years'''
 import requests
 from datetime import datetime,timedelta
+import csv
 
 def load_companies(filename):
 
@@ -39,11 +40,16 @@ companies=load_companies('companies.txt')
 api_key = open('news_api_2.txt','r').read()
 news_results = check_news(companies, api_key)
 
-for company,articles in news_results.items():
-    if len(articles)==0:  #no recent news
-        continue
-    else:
-        print(f"\nNews for {company}:")
-        for article in articles:
-            date_only = article['publishedAt'].split("T")[0]
-            print(f"- {article['title']} (Published on: {date_only})")
+with open("news_results.csv",'w',newline='',encoding='utf-8')as file:
+    csvwriter=csv.writer(file)
+    csvwriter.writerow(['Company','Article','Date'])
+    for company,articles in news_results.items():
+        if len(articles)==0:  #no recent news
+            continue
+        else:
+            print(f"\nNews for {company}:")
+            for article in articles:
+                date_only = article['publishedAt'].split("T")[0]
+                #print(f"- {article['title']} (Published on: {date_only})")
+                csvwriter.writerow([company,article,date_only])
+file.close()

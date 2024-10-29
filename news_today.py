@@ -33,8 +33,9 @@ def check_news(companies, api_key,date):
     return results 
 
 #main
+#companies=['B']
 companies=load_companies('companies.txt')
-api_key = open('news_api.txt','r').read()
+api_key = open('news_api_2.txt','r').read()
 
 date= (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d') #yesterday 
 
